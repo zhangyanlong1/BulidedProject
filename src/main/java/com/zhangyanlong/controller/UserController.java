@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.utils.StringUtils;
+import com.zhangyanlong.common.CmsContant;
 import com.zhangyanlong.entity.User;
 import com.zhangyanlong.service.UserService;
 
@@ -32,13 +33,34 @@ public class UserController {
 		
 		return "user/home";
 	}
-	
-	@RequestMapping("login")
-	public String login() {
+	/**
+	 * 跳转登录页面
+	 * @return
+	 */
+	@RequestMapping(value = "login",method = RequestMethod.GET)
+	public String login(HttpServletRequest request) {
 		
-		return "redirect:home";
+		return "user/login";
 	}
 	
+	@RequestMapping(value = "login",method = RequestMethod.POST)
+	public String login(HttpServletRequest request,User user) {
+		User loginUser = service.login(user);
+		
+		if(loginUser==null) {
+			request.setAttribute("err", "用户名或密码错误！");
+			return "user/login";
+		}
+		
+		//登录成功
+		request.getSession().setAttribute(CmsContant.USER_KEY,loginUser);
+		
+		//进入管理界面
+		if(loginUser.getRole()==CmsContant.USER_ROLE_ADMIN) {
+			return "redirect:admin/index";
+		}
+		return "forward:home";
+	}
 	/**
 	 * 跳转到注册页面
 	 * @param request

@@ -20,8 +20,8 @@ public class User implements Serializable {
 	@Size(max = 16, min = 3, message = "用户名称应该大于等于3且小于等于16")
 	private String username;
 
-	@NotBlank(message = "用户名不能为空")
-	@Size(max = 10, min = 3, message = "用户名称应该大于等于6且小于等于10")
+	@NotBlank(message = "密码不能为空")
+	@Size(max = 10, min = 3, message = "密码应该大于等于6且小于等于10")
 	private String password;
 
 	private String nickname;
@@ -33,7 +33,7 @@ public class User implements Serializable {
 	private Date updateTime;
 	private String url;// 头像的位置
 	private String score;// 积分
-	private String role; // 角色
+	private int role; // 角色
 
 	public Integer getId() {
 		return id;
@@ -123,11 +123,11 @@ public class User implements Serializable {
 		this.score = score;
 	}
 
-	public String getRole() {
+	public int getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(int role) {
 		this.role = role;
 	}
 

@@ -10,4 +10,6 @@ public interface UserService {
 
 	int register(@Valid User user);
 
+	User login(User user);
+
 }

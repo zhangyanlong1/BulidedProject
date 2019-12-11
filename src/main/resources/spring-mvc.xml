@@ -24,19 +24,16 @@
 	</bean>
 	
 	<!-- 配置权限的拦截器 -->
-	<!-- <mvc:interceptors>
+ <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/user/login"/>
 			<mvc:exclude-mapping path="/user/register"/>
-			<mvc:exclude-mapping path="/"/>
-			<mvc:exclude-mapping path="/index"/>
-			<mvc:exclude-mapping path="/pic/**"/>
+			<mvc:exclude-mapping path="/user/checkname"/>
 			<mvc:exclude-mapping path="/resource/**"/>
-			<mvc:exclude-mapping path="/article/showdetail"/>
 			<bean class="com.zhangyanlong.web.UserInterceptor"></bean>
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors> 
 	
 	<!-- 上传下载配置 -->	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
