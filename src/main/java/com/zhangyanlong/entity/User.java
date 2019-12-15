@@ -35,6 +35,8 @@ public class User implements Serializable {
 	private String score;// 积分
 	private int role; // 角色
 
+	
+	
 	public Integer getId() {
 		return id;
 	}

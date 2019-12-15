@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.zhangyanlong.dao.ArticleMapper">
+ 	
+ 	<resultMap type="com.zhangyanlong.entity.Article" id="articleList">
+		<result property="channelId" column="channel_id"/>
+		<result property="categoryId" column="category_id"/>
+		<association property="channel" column="channel_id" javaType="com.zhangyanlong.entity.Channel" 
+		   select="findChannel"></association>
+		<association property="category" column="category_id" javaType="com.zhangyanlong.entity.Category" 
+		   select="findCatigory"></association>
+ 	</resultMap>
+ 	
+ 	
+ 	<select id="getArticleByUser"  resultMap="articleList">
+ 		SELECT id,title,channel_id,category_id , created,status 
+		  FROM cms_article
+		  WHERE user_id = #{value} AND deleted=0
+		  ORDER BY id DESC  
+ 	
+ 	</select>
+ 
+ 
+ 	<!-- 获取频道 -->
+	<select id="findChannel" resultType="channel">
+		SELECT id,name FROM cms_channel WHERE id=#{value}
+	</select>
+	
+	<!-- 获取分类 -->
+	<select id="findCatigory" resultType="category">
+		SELECT id,name FROM cms_category WHERE id=#{value}
+	</select>
+ 
+ </mapper>

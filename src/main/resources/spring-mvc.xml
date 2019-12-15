@@ -31,6 +31,8 @@
 			<mvc:exclude-mapping path="/user/register"/>
 			<mvc:exclude-mapping path="/user/checkname"/>
 			<mvc:exclude-mapping path="/resource/**"/>
+			<mvc:exclude-mapping path="/pic/**" />
+			<mvc:exclude-mapping path="/file/**" />
 			<bean class="com.zhangyanlong.web.UserInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors> 
