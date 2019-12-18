@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 import com.utils.FileUtils;
+import com.utils.HtmlUtils;
 import com.utils.StringUtils;
 import com.zhangyanlong.common.CmsContant;
 import com.zhangyanlong.entity.Article;
@@ -52,12 +53,33 @@ public class UserController {
 
 	@Autowired
 	UserService userService ;
+	
+	/**
+	 * 跳转普通用户的个人中心
+	 * @return
+	 */
 	@RequestMapping("home")
 	public String home() {
-		
-		
 		return "user/home";
 	}
+	
+	
+	/**
+	 * 跳转个人中心
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("personCenter")
+	public String home(HttpServletRequest request) {
+		User loginUser = (User) request.getSession().getAttribute(CmsContant.USER_KEY);
+		if(loginUser.getRole()==CmsContant.USER_ROLE_ADMIN) {
+			return "forward:/admin/index";
+		}
+		
+		System.out.println("2");
+		return "user/home";
+	}
+	
 	/**
 	 * 跳转登录页面
 	 * @return
@@ -68,6 +90,12 @@ public class UserController {
 		return "user/login";
 	}
 	
+	/**
+	 * 登录操作
+	 * @param request
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(value = "login",method = RequestMethod.POST)
 	public String login(HttpServletRequest request,User user) {
 		User loginUser = userService.login(user);
@@ -80,12 +108,20 @@ public class UserController {
 		//登录成功
 		request.getSession().setAttribute(CmsContant.USER_KEY,loginUser);
 		
-		//进入管理界面
-		if(loginUser.getRole()==CmsContant.USER_ROLE_ADMIN) {
-			return "redirect:admin/index";
-		}
-		return "forward:home";
+		//跳转到主页
+		return "forward:/index/index";
 	}
+	
+	
+	/**
+	 * 退出登录的操作
+	 */
+	@RequestMapping("outUser")
+	public String outUser(HttpServletRequest request) {
+		request.getSession().removeAttribute(CmsContant.USER_KEY);
+		return "redirect:/index/index";
+	}
+	
 	/**
 	 * 跳转到注册页面
 	 * @param request
@@ -95,7 +131,6 @@ public class UserController {
 	public String register(HttpServletRequest request) {
 		User user = new User();
 		request.setAttribute("user", user);
-		System.out.println("111");
 		return "user/register";
 		
 	}
@@ -204,8 +239,6 @@ public class UserController {
 	public boolean postArticle(HttpServletRequest request, Article article, 
 			MultipartFile file
 			) {
-		
-		
 		String picUrl;
 		try {
 			// 处理上传文件
@@ -229,6 +262,66 @@ public class UserController {
 	
 
 	/**
+	 * 跳转到修改文章的页面
+	 * @return
+	 */
+	@RequestMapping(value="updateArticle",method=RequestMethod.GET)
+	public String updateArticle(HttpServletRequest request,int id) {	
+		
+		//获取栏目
+		List<Channel> channels= articleService.getChannels();
+		request.setAttribute("channels", channels);
+		
+		//获取文章
+		Article article = articleService.getById(id);
+		User loginUser = (User)request.getSession().getAttribute(CmsContant.USER_KEY);
+		if(loginUser.getId() != article.getUserId()) {
+			// todo 准备做异常处理的！！
+		}
+		request.setAttribute("article", article);
+		request.setAttribute("content1",  HtmlUtils.htmlspecialchars(article.getContent()));
+		
+		
+		return "user/article/update";
+	}
+	
+	
+	
+	/**
+	 * 接受修改文章的页面提交的数据
+	 * @return
+	 */
+	@RequestMapping(value="updateArticle",method=RequestMethod.POST)
+	@ResponseBody
+	public  boolean  updateArticle(HttpServletRequest request,Article article,MultipartFile file) {
+		
+		System.out.println("aarticle is  "  + article);
+		
+		String picUrl;
+		try {
+			// 处理上传文件
+			picUrl = processFile(file);
+			article.setPicture(picUrl);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//当前用户是文章的作者
+		User loginUser = (User)request.getSession().getAttribute(CmsContant.USER_KEY);
+		//article.setUserId(loginUser.getId());
+		int updateREsult  = articleService.update(article,loginUser.getId());
+		
+		
+		return updateREsult>0;
+		
+	}
+	
+	
+	/**
 	 * 
 	 * @param request
 	 * @param cid
@@ -238,6 +331,7 @@ public class UserController {
 	@ResponseBody
 	public List<Category>  getCategoris(int cid) {	
 		List<Category> categoris = articleService.getCategorisByCid(cid);
+		System.out.println("吱吱吱吱");
 		return categoris;
 	}
 	
@@ -245,6 +339,17 @@ public class UserController {
 		@RequestMapping("userSetting")
 		public String userSetting() {
 			return "user/setting/settingUser";
+		}
+		
+		
+		/**
+		 * 跳转到首页
+		 */
+		@RequestMapping("index")
+		public String index() {
+			
+			return "index";
+			
 		}
 		
 		

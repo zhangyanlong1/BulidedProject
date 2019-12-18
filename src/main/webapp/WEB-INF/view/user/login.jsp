@@ -15,7 +15,7 @@
 <script type="text/javascript" src="/resource/js/jqueryvalidate/localization/messages_zh.js"></script>
 </head>
 <body>
-
+<a href="/index/index"  >首页</a>
 <nav class="nav fixed-top justify-content-center" style="height:50px;margin-top: 100px " > 登录界面 </nav>
 <div class="container-fulid text-center" style="margin-top:200px;height:200px">
 	<div  class="container">

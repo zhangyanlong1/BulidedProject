@@ -19,6 +19,7 @@
 	<script charset="utf-8" src="/resource/kindeditor/kindeditor-all.js"></script>
     <script charset="utf-8" src="/resource/kindeditor/lang/zh-CN.js"></script>
 
+
 <style type="text/css">
 	.menuselected {
 		background:blue;
@@ -43,23 +44,24 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="btn text-white">cms官网</span>
     </button>
-    <a href="/index/index" class="text-white"  style="margin-left: -50%">首页</a>
-     <div class="align-center">
+      <a href="/index/index" class="text-white"  style="margin-left: -50%">首页</a>
+     <div >
+    
     		<ul class="nav">
     		<li class="nav-item nav-link"><input  type="text"></li>
-    		<li class="nav-item nav-link"> <img width="35px" height="35px" src="/resource/images/guest.jpg"> </li>
+    		<li class="nav-item nav-link"> <img width="35px" height="35px" src="/resource/images/guest.jpg"></li>
     		<li class="nav-item nav-link text-white">
-					  <div class="dropdown mr-1">
+				<div class="dropdown mr-1">
 					    <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
 					     	${loing_session_key.username }
 					    </button>
 					    <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-					      <a class="dropdown-item" href="/user/home">个人中心</a>
+					      <a class="dropdown-item" href="/user/personCenter">个人中心</a>
 					      <a class="dropdown-item" href="#">个人设置</a>
 					      <a class="dropdown-item" href="/user/outUser">退出登录</a>
 					    </div>
 					  </div>
-    		</li>
+			</li>
     		</ul>
      </div>
   </nav>
@@ -67,16 +69,16 @@
     <div style="width: 80%;height:  800px;position: relative;margin: 100px auto;border:solid 1px;"  >
 	   			  <ul class="nav  mymenuselected" >
 					  <li class="nav-item">
-					    <a class="nav-link active"  id="articles"  href="#"    onclick="showWork($(this),'/user/articles')">我的文章</a>
+					    <a class="nav-link active"  id="articles"  href="#"    onclick="showWork($(this),'/admin/articles')">文章管理</a>
 					  </li>
 					  <li class="nav-item">
-					        <a class="nav-link"  id="putupArticle" href="#"    onclick="showWork($(this),'/user/articlePutUp')">发表文章</a>
+					        <a class="nav-link"  id="putupArticle" href="#"    onclick="showWork($(this),'/admin/comments')">论坛管理</a>
 					  </li>
 					  <li class="nav-item">
-					    <a class="nav-link"   id="comment"   href="#"    onclick="showWork($(this),'/user/comments')">我的论坛</a>
+					    <a class="nav-link"   id="comment"   href="#"    >个人设置</a>
 					  </li>
 					  <li class="nav-item">
-					    <a class="nav-link"   id="userSetting"   href="#"    onclick="showWork($(this),'/user/userSetting')"  >个人设置</a>
+					    <a class="nav-link"   id="userSetting"   href="#"      >个人设置</a>
 					  </li>
 					</ul>
 					<div class="col-md-10 "  id="workcontent"    style="height: 400px;position: relative;margin: auto;margin-top: 30px">
@@ -101,7 +103,7 @@
 		
 	$(function(){
 		$("#articles").parent().addClass("menuselected");
-		$("#workcontent").load("/user/articles");
+		$("#workcontent").load("/admin/articles");
 	})
 	
 	function showWork(obj,url){

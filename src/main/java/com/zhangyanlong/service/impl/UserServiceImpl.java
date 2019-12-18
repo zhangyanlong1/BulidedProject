@@ -31,7 +31,6 @@ public class UserServiceImpl implements UserService {
 	public int register(@Valid User user) {
 		String encryPwd=CmsUtils.encry(user.getPassword(), user.getUsername());
 		user.setPassword(encryPwd);
-		mapper.add(user);
 		return mapper.add(user);
 	}
 

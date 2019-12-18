@@ -11,6 +11,7 @@
 		   select="findChannel"></association>
 		<association property="category" column="category_id" javaType="com.zhangyanlong.entity.Category" 
 		   select="findCatigory"></association>
+		   <association property="user" column="user_id" javaType="com.zhangyanlong.entity.User"  select="com.zhangyanlong.dao.UserMapper.findUserById"/>
  	</resultMap>
  	
  	
@@ -33,4 +34,48 @@
 		SELECT id,name FROM cms_category WHERE id=#{value}
 	</select>
  
+ 
+ 	<select id="findById" resultMap="articleList">
+		SELECT * FROM cms_article WHERE id=#{value} AND deleted=0
+	</select>
+	
+	
+	<select id="getList" resultMap="articleList">
+		SELECT id,title,channel_id,category_id ,user_id, created,status,hot
+		  FROM cms_article
+		  WHERE  deleted=0
+		  ORDER BY id DESC 
+	</select>
+	
+	
+	<!-- 获取热门文章 -->
+	<select id="hostList" resultMap="articleList">
+		SELECT id,title,channel_id,category_id ,user_id, created
+		  FROM cms_article
+		  WHERE status = 1 AND deleted=0
+		         AND hot = 1 
+		  ORDER BY id DESC 
+    </select>
+    
+    
+    <select id="getArticles" resultMap="articleList">
+		SELECT id,title,channel_id,category_id ,user_id, created
+		  FROM cms_article
+		  WHERE status = 1 AND deleted=0
+		  	AND channel_id=#{channelId}
+		  <if test="catId!=0">
+		  	AND category_id=#{catId}
+		  </if>   
+		  ORDER BY id DESC 
+    </select>
+    
+	<!-- 最新文章 -->
+	<select id="lastList" resultMap="articleList">
+		SELECT id,title,channel_id,category_id ,user_id, created
+		  FROM cms_article
+		  WHERE status = 1 AND deleted=0
+		         AND hot = 1 
+		  ORDER BY id DESC 
+		  LIMIT #{value} 
+    </select>
  </mapper>

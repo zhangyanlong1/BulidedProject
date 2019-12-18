@@ -10,16 +10,18 @@
 </head>
 <body>
 <form  id="articleform"  name="articleform">
+  <input type="hidden" name="id" value="${article.id}">
 	 <div class="title1">
     <label for="title1">标题</label>
-	<input class="form-control form-control-lg" type="text" placeholder="标题"   name="title" >
+	<input class="form-control form-control-lg" type="text" placeholder="标题"   name="title"   value="${article.title }" >
 	</div>
 	 <div class="form-group">
     <label for="channel">栏目</label>
     <select class="form-control" id="channel"  name="channelId">
        <option value="0">请选择</option>
       <c:forEach items="${channels}" var="cat">
-      		<option value="${cat.id}">${cat.name}</option>
+      		<!-- 下拉框的回显 -->	
+      		<option value="${cat.id}" ${article.channelId==cat.id?"selected":""}>${cat.name}</option>	
       </c:forEach>
     </select>
   </div>
@@ -43,14 +45,27 @@
    </div>
   </form>
  <script>
-	$("#channel").change(function(){
+ function channelChange(){
+
+		console.log("选中的数据是 " + $("#channel").val())
 		$.post("/user/getCategoris",{cid:$("#channel").val()},
 				function(data){
 					$("#category").empty();
 					for ( var i in data) {
-						$("#category").append("<option value='"+ data[i].id+"'>"+data[i].name+"</option>")	
+						if(data[i].id=='${article.categoryId}'){
+							$("#category").append("<option selected value='"+ data[i].id+"'>"+data[i].name+"</option>")	
+						}
+						else{
+							$("#category").append("<option value='"+ data[i].id+"'>"+data[i].name+"</option>")
+						}	
 					}
 		})
+	
+	}
+	
+ 
+ 	$("#channel").change(function(){
+		channelChange();
 	})
 	
 	
@@ -100,7 +115,7 @@
 			  formData.set("content",editor.html());
 			console.log("222222222222")
 			 
-			  $.ajax({url:"postArticle",
+			  $.ajax({url:"updateArticle",
 				  dataType:"json",
 				  data:formData,
 				  // 让jQuery 不要再提交数据之前进行处理

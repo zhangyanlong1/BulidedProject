@@ -40,7 +40,8 @@
         					</c:otherwise>
         	</c:choose>
 	  </td>
-	  <td>修改 / <input type="button" value="删除"  class="btn btn-danger" onclick="del(${articleList.id})"></td>
+	  <td><input type="button" value="修改"  class="btn btn-warning" onclick="upd(${articleList.id})"> 
+	  / <input type="button" value="删除"  class="btn btn-danger" onclick="del(${articleList.id})"></td>
     </tr>
     </c:forEach>  
 </table>
@@ -52,9 +53,9 @@
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <c:forEach begin="1"  end="${page.pages }"  var="p"  varStatus="i">
-    <li class="page-item"><a class="page-link" href="#"  onclick="gopage(${i.index})">${i.index }</a></li>
-  </c:forEach>
+   	<c:if test="${page.pageNum!=page.firstPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum-1})">${page.pageNum-1 }</a></li></c:if>
+   	 	<li class="page-item"><a class="page-link" href="#"  style="background-color:  yellow"  onclick="gopage(${page.pageNum})">${page.pageNum }</a></li>
+  		<c:if test="${page.pageNum!=page.lastPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum+1})">${page.pageNum+1 }</a></li></c:if>
     <li class="page-item">
       <a class="page-link" href="#" aria-label="Next"  onclick="gopage(${page.nextPage==0?page.pages:page.nextPage})">
         <span aria-hidden="true">&raquo;</span>
@@ -64,6 +65,11 @@
 </nav>
 
 <script type="text/javascript">
+
+function upd(id){
+	$("#workcontent").load("/user/updateArticle?id="+id);
+}
+
 /**
 * 翻页
 */
@@ -77,13 +83,12 @@ function gopage(pageNum){
 	function del(id){
 		if(!confirm("您确认删除么？"))
 			return;
-		
 		$.post('/user/deletearticle',{id:id},
 				function(data){
 					if(data==true){
 						alert("刪除成功")
 						//location.href="#"
-						$("#workcontent").load("/user/articles");
+						$("#workcontent").load("/user/articles?page=${page.pageNum}");
 					}else{
 						alert("刪除失敗")
 					}
