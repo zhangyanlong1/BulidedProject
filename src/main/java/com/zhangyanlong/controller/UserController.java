@@ -255,8 +255,6 @@ public class UserController {
 		//当前用户是文章的作者
 		User loginUser = (User)request.getSession().getAttribute(CmsContant.USER_KEY);
 		article.setUserId(loginUser.getId());
-		
-		
 		return articleService.add(article)>0;
 	}
 	
@@ -280,8 +278,6 @@ public class UserController {
 		}
 		request.setAttribute("article", article);
 		request.setAttribute("content1",  HtmlUtils.htmlspecialchars(article.getContent()));
-		
-		
 		return "user/article/update";
 	}
 	

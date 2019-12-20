@@ -59,9 +59,10 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 	@Override
 	public Article getById(int id) {
-		
+		//如果是0则是从热门进入的
 		return mapper.findById(id);
 	}
+	
 	@Override
 	public PageInfo<Article> getList(int page) {
 		PageHelper.startPage(page, 5);
@@ -140,6 +141,26 @@ public class ArticleServiceImpl implements ArticleService {
 		return new PageInfo<Comment>(mapper.getComments(articleId));
 		
 		
+	}
+	@Override
+	public PageInfo<Article> getListById(int page,int id, int channelId, int categoryId, int hotId) {
+		int page1=0;
+		List<Article> list1= mapper.getListById(channelId,categoryId,hotId);
+		System.out.println(list1);
+		for (Article article : list1) {
+			page1++;
+			if(article.getId()==id) {
+				break;
+			}
+		}
+		if(page==0) {
+			PageHelper.startPage(page1, 1);
+		}else {
+			PageHelper.startPage(page, 1);
+		}
+		List<Article> list2 = mapper.getListById(channelId,categoryId,hotId);
+		System.out.println(list2);
+		return new PageInfo<Article>(list2);
 	}
 	
 }

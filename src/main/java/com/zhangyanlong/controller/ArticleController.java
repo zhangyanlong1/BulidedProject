@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
@@ -48,15 +49,23 @@ public class ArticleController {
 	}
 	
 	@RequestMapping("detail")
-	public String detail(HttpServletRequest request,int id) {
+	public String detail(HttpServletRequest request,int id,
+			@RequestParam(defaultValue = "0")Integer channelId,
+			@RequestParam(defaultValue = "0")Integer categoryId,
+			@RequestParam(defaultValue = "-1")Integer hotId
+			,@RequestParam(defaultValue = "0")Integer page) {
+		System.out.println(channelId);
+		System.out.println(categoryId);
+		System.out.println(hotId);
+		System.out.println(page);
+		PageInfo<Article> pageInfo = articleService.getListById(page,id,channelId,categoryId,hotId);	
+		request.setAttribute("channel_id", channelId);
+		request.setAttribute("category_id", categoryId);
+		request.setAttribute("hotId",hotId );
 		
-		Article article = articleService.getById(id);
-		request.setAttribute("article", article);
+		request.setAttribute("page", pageInfo);
 		return "detail";
-		
 	}
-	
-	
 	
 	@RequestMapping("postcomment")
 	@ResponseBody
@@ -80,7 +89,6 @@ public class ArticleController {
 		
 	}
 	// {articleId:'${article.id}',content:$("#co
-	
 		//comments?id
 		@RequestMapping("comments")
 		public String comments(HttpServletRequest request,int id,int page) {

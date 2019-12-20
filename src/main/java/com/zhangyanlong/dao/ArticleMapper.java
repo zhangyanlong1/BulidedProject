@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.github.pagehelper.PageInfo;
 import com.zhangyanlong.entity.Article;
 import com.zhangyanlong.entity.Category;
 import com.zhangyanlong.entity.Channel;
@@ -132,5 +133,6 @@ public interface ArticleMapper {
 			+ " WHERE articleId=#{value} ORDER BY c.created DESC")
 	List<Comment> getComments(int articleId);
 	
-
+	
+	public List<Article> getListById(@Param("channelId")int channelId, @Param("categoryId")int categoryId, @Param("hotId")int hotId);
 }

@@ -2,11 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%  
+	   int  i=0;
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>同是天涯沦落人</title>
+<title>cms</title>
 <script type="text/javascript" src="/resource/js/jquery-3.2.1/jquery.js" ></script>
 <link href="/resource/bootstrap-4.3.1/css/bootstrap.css" rel="stylesheet">
 <script type="text/javascript" src="/resource/bootstrap-4.3.1/js/bootstrap.js"></script>
@@ -95,7 +98,6 @@
      </div>
   </nav>
   
-  
 <div class="container-fluid" style="margin-top:20px">
 	<div class="row">
 		<!-- 左侧栏目 -->
@@ -103,7 +105,7 @@
 			<div>沦落人</div>
 			<div>
 				<ul class="nav flex-column" >
-					<c:forEach items="${channels}" var="channel">
+					<c:forEach items="${channels}" var="channel"  >
 						<li  class="nav-item ">
 						  <a class="nav-link menu ${channelId==channel.id?'myactive':''}" href="/index/channel?channelId=${channel.id}"> ${channel.name} </a>
 						</li>
@@ -111,17 +113,16 @@
 				</ul>
 			</div>
 		</div>
-		
 		<!-- 中间内容列表 -->
 		<div class="col-md-6">
 			<div>
 				<ul class="nav nav-pills">
 				 	  <li class="nav-item">
-						    <a class="nav-link ${catId==0?'active':''}" href="/index/channel?channelId=${channelId}" >全部</a>
-				       </li>
+						    <a class="nav-link ${catId==0?'active':''}"  href="/index/channel?channelId=${channelId}">全部</a>
+				       </li>e
 					  <c:forEach items="${categoris}" var="category" >
 						  <li class="nav-item">
-						    <a class="nav-link ${catId==category.id?'active':''}"  href="/index/channel?channelId=${channelId}&catId=${category.id}">${category.name}</a>
+						    <a class="nav-link ${catId==category.id?'active':''}"  href="/index/channel?channelId=${channelId}&catId=${category.id}" >${category.name}</a>
 						  </li>
 					  </c:forEach>
 					  
@@ -132,13 +133,17 @@
 				<c:forEach items="${articlePage.list}" var="article">
 					<div class="row" style="margin-top:5px">
 						<div class="col-md-3">
-							<img src="/pic/${article.picture}"
+							<img src="/pic/${article.picture}"  width="150px" height="150px" 
 							  onerror="this.src='/resource/images/guest.jpg'"
-							  class="rounded" style="border-radius:12px!important;"
-							 >
+							  class="rounded" style="border-radius:12px!important;" >
 						</div>
 						<div class="col-md-9">
-							<a href="/article/detail?id=${article.id}" target="_blank">${article.title}</a>
+							<c:if test="${catId==0 }">
+								<a href="/article/detail?id=${article.id}&channelId=${article.channelId}" target="_blank">${article.title}</a>
+							</c:if>
+							<c:if test="${catId!=0 }">
+								<a href="/article/detail?id=${article.id}&categoryId=${article.category.id}" target="_blank">${article.title}</a>
+							</c:if>
 							<br>
 							作者：${article.user.username}
 							<br>
@@ -150,7 +155,6 @@
 		</div>
 		<!-- 右侧 -->
 		<div class="col-md-4">
-				
 				<div class="card">
 					  <div class="card-header">
 					    最新文章
@@ -164,7 +168,6 @@
 					     </ol>
 					  </div>
 				</div>	
-				
 					
 			  <div class="card" style="margin-top:50px">
 					  <div class="card-header">
@@ -181,7 +184,6 @@
 		</div>
 	</div>
 </div>
-
 
 </body>
 </html>

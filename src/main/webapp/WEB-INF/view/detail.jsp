@@ -14,7 +14,6 @@
 <script type="text/javascript" src="/resource/js/jqueryvalidate/localization/messages_zh.js"></script>
 </head>
 <body>
-<div class="pos-f-t">
   <div class="collapse" id="navbarToggleExternalContent">
     <div class="bg-dark p-4">
       <h5 class="text-white h4">Cms  官网</h5>
@@ -52,11 +51,17 @@
     		</ul>
      </div>
   </nav>
+  
+
 	<div class="container">
+	  <c:forEach  items="${page.list }" var="article">
+	  <div><a href="/index/channel?channelId=${article.channel.id}">返回</a></div>
 		<div class="row justify-content-center" >
 			<h3>${article.title}</h3>
 		</div>
+		<input type="hidden"  id="idd"  value="${article.id }">
 		<div class="row justify-content-center">
+		
 			<h5>
 			作者：${article.user.username} &nbsp;&nbsp;&nbsp;
 			栏目：${article.channel.name}  &nbsp;&nbsp;&nbsp;
@@ -68,14 +73,15 @@
 		<div style="margin-top:30px">
 			${article.content}
 		</div>
+	  </c:forEach>
 		<div>
 			<nav aria-label="...">
 					  <ul class="pagination">
 					    <li class="page-item ">
-					      <a class="page-link" href="#" tabindex="-1" >上一篇</a>
+					      <input type="button"  onclick="dePage(${page.prePage==0?1:page.prePage})" value="上一页">
 					    </li>
 					    <li class="page-item">
-					      <a class="page-link" href="#">下一篇</a>
+					     <input type="button"  onclick="dePage(${page.nextPage==0?page.lastPage:page.nextPage})"  value="下一页">
 					    </li>
 					  </ul>
 					</nav>
@@ -86,17 +92,28 @@
 			<input type="button" class="btn btn-primary" onclick="addComment()" value="发表评论">
 		</div>
 		<div id="comment">
-			
 		</div>
 	</div>
 <script type="text/javascript">
+	var id =$("#idd").val() ;
+		function dePage(page){
+			if(${hotId!=-1 && channel_id==0 && category_id==0 }){
+				location="/article/detail?id="+id+"&page="+page+"&hotId=${hotId}";
+			}else if(${hotId==-1 && channel_id!=0 && category_id==0}){
+				location="/article/detail?id="+id+"&page="+page+"&channelId=${channel_id}";
+			}else if(${hotId==-1 && channel_id==0 && category_id!=0}){
+				location="/article/detail?id="+id+"&page="+page+"&categoryId=${category_id}";
+			}
+		}
+		
 		//前往评论分页
 		function gopage(page){
 			showComment(page)
 		}
 		//将comments页面加载到本页
 		function showComment(page){
-			$("#comment").load("/article/comments?id=${article.id}&page="+page)
+			
+			$("#comment").load("/article/comments?id="+id+"&page="+page)
 		}
 		//预加载第一条评论
 		$(document).ready(function(){
@@ -106,23 +123,24 @@
 		
 		//实现发布评论
 		function addComment(){
-			
-	
+			if(${loing_session_key.username==null}){
+				if(confirm("请先登录")){
+					location ="/user/login";
+				}
+			}else{
 				$.post("/article/postcomment",
-						{articleId:'${article.id}',content:$("#commentText").val()},
+						{articleId:id,content:$("#commentText").val()},
 					function(msg){
-						if(msg.code==1){
-							alert('发布成功')
-							$("#commentText").empty()
+						if(msg.code==1){		
+							alert('发布成功');
+							$("#commentText").val("");
+							location="/article/detail?id"+id
 						}else{
 							alert(msg.error)
 						}
-					},
-					"json") 
-			}
-			 
-		
+					},"json") 
+			}	 
+		}
 	</script>
-
 </body>
 </html>

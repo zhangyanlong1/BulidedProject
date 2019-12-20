@@ -48,6 +48,22 @@
     </c:forEach>  
 </table>
 
+<!-- 分页 -->
+<div  class="row  justify-content-center">
+<div class="collapse" id="collapseExample1">
+  <div class="card card-body">
+  		<ul class="nav">
+    	<c:forEach begin="1" end="${page.pages}" varStatus="i">
+    		<c:if test="${i.index<(page.pageNum-1)}">
+    			<li class="nav-item">
+		   			<input type="button"  class="btn btn-primary"  href="#" onclick="gopage(${i.index})"  value="${i.index}">
+		   		</li>
+		   		<c:if test="${i.index%10==0}"><br></c:if>
+		   	</c:if>
+		</c:forEach>
+		</ul>
+  </div>
+</div>
  <nav aria-label="Page navigation example"  >
   <ul class="pagination justify-content-center">
     <li class="page-item">
@@ -57,7 +73,7 @@
     </li>
     	<c:if test="${page.pages>3&&(page.pageNum-2)>0 }">
     		<li class="page-item">
-    			<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample"  >...</a>
+    			<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1"  >...</a>
     		</li>
     	</c:if>
      	<c:if test="${page.pageNum!=page.firstPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum-1})">${page.pageNum-1 }</a></li></c:if>
@@ -65,7 +81,7 @@
   		<c:if test="${page.pageNum!=page.lastPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum+1})">${page.pageNum+1 }</a></li></c:if>
   		<c:if test="${page.pages>3&&(page.pages-page.pageNum)>2 }">
   			<li class="page-item">
-  				<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample"  >...</a>
+  				<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2"  >...</a>
   			</li>
   		</c:if>
     <li class="page-item">
@@ -75,24 +91,21 @@
     </li>
   </ul>
 </nav>
-<div class="collapse" id="collapseExample1">
-  <div class="card card-body">
-    	<c:forEach begin="1" end="${page.pages}" varStatus="i">
-    		<c:if test="${i.index<(page.pageNum-1)}">
-		   		<input type="button"  class="btn btn-primary"  href="#" onclick="gopage(${i.index})"  value="${i.index}">
-		   	</c:if>
-		</c:forEach>
-  </div>
-</div>
 <div class="collapse" id="collapseExample2">
   <div class="card card-body">
+  	<ul class="nav">
     	<c:forEach begin="1" end="${page.pages}" varStatus="i">
     		<c:if test="${i.index>(page.pageNum+1)}">
-		   		<input type="button"  class="btn btn-primary"   href="#" onclick="gopage(${i.index})"  value="${i.index}">
+    			<li class="nav-item ">
+		   			<input type="button"  class="btn btn-primary"   href="#" onclick="gopage(${i.index})"  value="${i.index}">
+		   		</li>
 		   	</c:if>
 		</c:forEach>
+	</ul>
   </div>
 </div>
+</div>
+<!-- 分页 -->
 
 <div class="modal fade bs-example-modal-sm"   id="articleContent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true"   >
   <div class="modal-dialog"  role="document"   >

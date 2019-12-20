@@ -127,5 +127,7 @@ public interface ArticleService {
 	 * @return
 	 */
 	PageInfo<Comment> getComments(int id, int page);
+
+	PageInfo<Article> getListById(int page,int id, int channelId, int categoryId, int hotId);
 	
 }

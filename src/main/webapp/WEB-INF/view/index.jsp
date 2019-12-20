@@ -52,6 +52,7 @@
 
 </head>
 <body>
+<input type="text"  name="channelId">
  <!-- 导航条 -->
   <div class="collapse" id="navbarToggleExternalContent">
     <div class="bg-dark p-4">
@@ -120,7 +121,7 @@
 					  <div class="carousel-inner">
 					    <c:forEach items="${slides}" var="slide" varStatus="index">
 					    <div class="carousel-item ${index.index==0?'active':''}">
-					      <img src="/pic/${slide.picture}" class="d-block w-100" alt="${slide.title}">
+					      <img src="/pic/${slide.picture}" class="d-block w-100" alt="${slide.title}"  width="615px"  height="400px">
 					      <div class="carousel-caption d-none d-md-block">
 					        <h5>${slide.title} </h5>
 					        <p>${slide.title}</p>
@@ -144,13 +145,13 @@
 				<c:forEach items="${articlePage.list}" var="article">
 					<div class="row" style="margin-top:5px">
 						<div class="col-md-3">
-							<img src="/pic/${article.picture}"
+							<img src="/pic/${article.picture}"  width="150px" height="150px" 
 							  onerror="this.src='/resource/images/guest.jpg'"
 							  class="rounded" style="border-radius:12px!important;"
 							 >
 						</div>
 						<div class="col-md-9">
-							<a href="/article/detail?id=${article.id}" target="_blank">${article.title}</a>
+							<a href="/article/detail?id=${article.id}&hotId=1" target="_blank">${article.title}</a>
 							<br>
 							作者：${article.user.username}
 							<br>

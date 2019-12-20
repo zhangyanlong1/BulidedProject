@@ -18,38 +18,64 @@
 </c:forEach>  
 
 <div class="row"> 
-		<nav aria-label="Page navigation example" >
-					  <ul class="pagination ">
-					  
-					    <li class="page-item">
-					      <a class="page-link" href="javascript:gopage(${commentPage.pageNum-1})" aria-label="Previous">
-					        <span aria-hidden="true">&laquo;</span>
-					      </a>
-					    </li>
-					    
-					    <c:forEach begin="1" end="${commentPage.pages}" varStatus="index">
-					    	
-					    	<!-- 当前页码的处理 -->
-					    	<c:if test="${commentPage.pageNum==index.index}">
-					    		<li class="page-item"><a class="page-link" href="javascript:void()"><font color="red"> ${index.index} </font></a>  </li>
-					  		</c:if>
-					  		
-					  		<!-- 非当前页码的处理 -->
-							<c:if test="${commentPage.pageNum!=index.index}">
-					    		<li class="page-item"><a class="page-link" href="javascript:gopage(${index.index})"> ${index.index}</a></li>
-					  		</c:if>
-					  
-					    </c:forEach>
-					    
-					    <li class="page-item">
-					      <a class="page-link" href="javascript:gopage(${commentPage.pageNum+1})" aria-label="Next">
-					        <span aria-hidden="true">&raquo;</span>
-					      </a>
-					    </li>
-					    
-					  </ul>
-					</nav>
-			<!-- 分页结束 -->
+				<div class="collapse" id="collapseExample1">
+			  <div class="card card-body">
+			  	<ul class="nav">
+			    	<c:forEach begin="1" end="${commentPage.pages}" varStatus="i">
+			    		
+			    		<c:if test="${i.index<(commentPage.pageNum-1)}">
+			    			<li class="nav-item">
+					   		<input type="button"  class="btn btn-primary"  href="#" onclick="gopage(${i.index})"  value="${i.index}">
+					   		</li>
+					   	</c:if>
+					   	
+					</c:forEach>
+				</ul>
+			  </div>
+			</div>
+			<nav aria-label="Page navigation example"  >
+			  <ul class="pagination justify-content-center">
+			    <li class="page-item">
+			      <a class="page-link" href="#" aria-label="Previous"  onclick="gopage(${commentPage.prePage==0?1:commentPage.prePage})">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			    </li>
+			    	<c:if test="${commentPage.lastPage>3&&(commentPage.pageNum-2)>0 }">
+			    		<li class="page-item">
+			    			<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1"  >...</a>
+			    		</li>
+			    	</c:if>
+			     	<c:if test="${commentPage.pageNum!=commentPage.firstPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${commentPage.pageNum-1})">${commentPage.pageNum-1 }</a></li></c:if>
+			   	 	<li class="page-item"><a class="page-link" href="#"  style="background-color:  yellow" onclick="gopage(${commentPage.pageNum})">${commentPage.pageNum }</a></li>
+			  		<c:if test="${commentPage.pageNum!=commentPage.lastPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${commentPage.pageNum+1})">${commentPage.pageNum+1 }</a></li></c:if>
+			  		<c:if test="${commentPage.lastPage>3&&(commentPage.lastPage-commentPage.pageNum)>2 }">
+			  			<li class="page-item">
+			  				<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2"  >...</a>
+			  			</li>
+			  		</c:if>
+			    <li class="page-item">
+			      <a class="page-link" href="#" aria-label="Next"  onclick="gopage(${commentPage.nextPage==0?commentPage.lastPage:commentPage.nextPage})">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>
+			  </ul>
+			</nav>
+			
+			<div class="collapse" id="collapseExample2">
+			  <div class="card card-body">
+			 	 <ul class="nav">
+			    	<c:forEach begin="1" end="${commentPage.pages}" varStatus="i">
+			    		
+			    		<c:if test="${i.index>(commentPage.pageNum+1)}">
+			    			<li class="nav-item">
+					   			<input type="button"  class="btn btn-primary"   href="#" onclick="gopage(${i.index})"  value="${i.index}">
+						  	</li>					   
+						</c:if>
+					 
+					</c:forEach>
+					</ul>
+			  </div>
+			</div>
 </div>
 </body>
 </html>
