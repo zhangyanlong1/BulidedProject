@@ -137,7 +137,7 @@ public class ArticleController extends BaseController{
 				@ModelAttribute("complain") @Valid Complain complain,
 				MultipartFile file,
 				BindingResult result) throws IllegalStateException, IOException {
-			
+			System.out.println(complain+"\n\n\n\n\n\n");
 			if(!StringUtils.isUrl(complain.getSrcUrl())) {
 				result.rejectValue("srcUrl", "", "不是合法的url地址");
 			}
@@ -172,5 +172,6 @@ public class ArticleController extends BaseController{
 				return "article/complainslist";
 			}
 		
+			
 		
 }

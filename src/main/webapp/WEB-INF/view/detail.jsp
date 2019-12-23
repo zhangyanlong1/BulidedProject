@@ -55,7 +55,10 @@
 
 	<div class="container">
 	  <c:forEach  items="${page.list }" var="article">
-	  <div><a href="/index/channel?channelId=${article.channel.id}">返回</a></div>
+	  <div>
+	 	 	<c:if test="${hotId!=-1 }"><a href="/index/index">返回</a></c:if>
+	   		<c:if test="${hotId==-1 }"><a href="/index/channel?channelId=${article.channel.id}">返回</a></c:if>
+	  </div>
 		<div class="row justify-content-center" >
 			<h3>${article.title}</h3>
 		</div>
@@ -100,11 +103,11 @@
 <script type="text/javascript">
 	var id =$("#idd").val() ;
 		function dePage(page){
-			if(${hotId!=-1 && channel_id==0 && category_id==0 }){
+			if("${hotId!=-1 && channel_id==0 && category_id==0 }"=="true"){
 				location="/article/detail?id="+id+"&page="+page+"&hotId=${hotId}";
-			}else if(${hotId==-1 && channel_id!=0 && category_id==0}){
+			}else if("${hotId==-1 && channel_id!=0 && category_id==0}"=="true"){
 				location="/article/detail?id="+id+"&page="+page+"&channelId=${channel_id}";
-			}else if(${hotId==-1 && channel_id==0 && category_id!=0}){
+			}else if("${hotId==-1 && channel_id==0 && category_id!=0}"=="true"){
 				location="/article/detail?id="+id+"&page="+page+"&categoryId=${category_id}";
 			}
 		}
@@ -126,7 +129,7 @@
 		
 		//实现发布评论
 		function addComment(){
-			if(${loing_session_key.username==null}){
+			if("${loing_session_key.username==null}"=="true"){
 				if(confirm("请先登录")){
 					location ="/user/login";
 				}
@@ -134,10 +137,10 @@
 				$.post("/article/postcomment",
 						{articleId:id,content:$("#commentText").val()},
 					function(msg){
-						if(msg.code==1){		
+						if(msg.code==1){
 							alert('发布成功');
 							$("#commentText").val("");
-							location="/article/detail?id"+id
+							location="/article/detail?id="+id
 						}else{
 							alert(msg.error)
 						}

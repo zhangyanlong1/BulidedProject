@@ -174,8 +174,10 @@ public class ArticleServiceImpl implements ArticleService {
 		//添加投诉到数据库
 		int result = mapper.addCoplain(complain);
 		// 增加投诉的数量
-		if(result>0)
+		if(result>0) {
 			mapper.increaseComplainCnt(complain.getArticleId());
+		}
+			
 		
 		return 0;
 	}

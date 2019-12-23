@@ -14,7 +14,7 @@
 <script type="text/javascript" src="/resource/bootstrap-4.3.1/js/bootstrap.js"></script>
 <script type="text/javascript" src="/resource/js/jqueryvalidate/jquery.validate.js"></script>
 <script type="text/javascript" src="/resource/js/jqueryvalidate/localization/messages_zh.js"></script>
-</head>
+</head> 
 <body>
 	<div class="container">
 	<form:form  modelAttribute="complain" 

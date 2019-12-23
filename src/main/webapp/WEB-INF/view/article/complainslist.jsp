@@ -7,6 +7,7 @@
 	<div class="row">
 		<div class="col-md-3">${complain.user.username}</div>
 		<div class="col-md-3">${complain.content}</div>
+		<div class="col-md-3">${complain.content}</div>
 	</div>
 
 </c:forEach> 

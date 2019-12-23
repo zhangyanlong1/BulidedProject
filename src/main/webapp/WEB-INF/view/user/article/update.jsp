@@ -51,6 +51,7 @@
 		$.post("/user/getCategoris",{cid:$("#channel").val()},
 				function(data){
 					$("#category").empty();
+					
 					for ( var i in data) {
 						if(data[i].id=='${article.categoryId}'){
 							$("#category").append("<option selected value='"+ data[i].id+"'>"+data[i].name+"</option>")	
@@ -65,7 +66,7 @@
 	
  
  	$("#channel").change(function(){
-		channelChange();
+ 		channelChange();
 	})
 	
 	
@@ -74,7 +75,7 @@
 	*/
 	
 	 $(document).ready( function(){
-		 
+		 channelChange();
 			KindEditor.ready(function(K) {
 				//    textarea[name="content1"]
 				editor = K.create('#contentId', {

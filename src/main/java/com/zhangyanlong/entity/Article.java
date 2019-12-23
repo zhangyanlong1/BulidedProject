@@ -24,11 +24,20 @@ public class Article {
 	private Date updated         ;// 最后的修改时间
 	private int commentCnt      ; // 评论数量
 	private int articleType     ; // 文章的类型 文字0     图片  1  
-	
+	private int complainCnt ; //投诉数量
 	private Channel channel      ;//栏目 频道
 	private Category  category     ; //分类
 	private User user ;
 	
+	
+	public int getComplainCnt() {
+		return complainCnt;
+	}
+
+	public void setComplainCnt(int complainCnt) {
+		this.complainCnt = complainCnt;
+	}
+
 	public Integer getId() {
 		return id;
 	}
