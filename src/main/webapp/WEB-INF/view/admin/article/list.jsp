@@ -42,8 +42,12 @@
         	</c:choose>
 	  </td>
 	  <td>${articleList.hot==1?"热门":"不是热门" }</td>
-	  <td><input type="button" value="审核"  class="btn btn-warning"   onclick="check(${articleList.id})"> 
-	  / <input type="button" value="删除"  class="btn btn-danger" onclick="del(${articleList.id})"></td>
+	  <td> 
+	  			<input type="button" value="审核"  class="btn btn-warning"   onclick="check(${articleList.id})"> 
+	  			<input type="button" value="删除"  class="btn btn-danger" onclick="del(${articleList.id})">
+	  	  		<input type="button" value="管理投诉"  class="btn btn-warning"  onclick="complainList(${articleList.id})" >
+	  </td>
+	
     </tr>
     </c:forEach>  
 </table>
@@ -132,6 +136,33 @@
   </div>
 </div>
 
+
+
+<!-- 查看投书 -->
+<div class="modal fade"   id="complainModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="margin-left:100px;">
+    <div class="modal-content" style="width:1200px;" >
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">文章审核</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="complainListDiv">
+         
+         		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary"  onclick="setStatus(1)">审核通过</button>
+        <button type="button" class="btn btn-primary"  onclick="setStatus(2)">审核拒绝</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script type="text/javascript">
 /**
 * 翻页
@@ -195,6 +226,7 @@ function gopage(pageNum){
 				alert('操作成功')
 				//隐藏当前的模态框
 				$('#articleContent').modal('hide')
+				$("#complainModal").modal('hide')
 				//刷新当前的页面
 				refreshPage();
 			}
@@ -231,7 +263,17 @@ function gopage(pageNum){
 		
  		setTimeout(function(){//延时加载页面
 			$("#workcontent").load("/admin/articles?page=${page.pageNum}");
-		},150); 
+		},500); 
+	}
+	
+	/**
+	* 查看文章的投诉
+	*/
+	function complainList(id){
+		global_article_id=id;
+		$("#complainModal").modal('show')
+		$("#complainListDiv").load("/article/complains?articleId="+id);
+		
 	}
 </script>
 </body>

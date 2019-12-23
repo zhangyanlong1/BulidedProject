@@ -21,7 +21,7 @@ public class User implements Serializable {
 	private String username;
 
 	@NotBlank(message = "密码不能为空")
-	@Size(max = 10, min = 3, message = "密码应该大于等于6且小于等于10")
+	@Size(max = 10, min = 6, message = "密码应该大于等于6且小于等于10")
 	private String password;
 
 	private String nickname;

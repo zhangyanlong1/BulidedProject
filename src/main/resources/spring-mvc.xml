@@ -35,8 +35,7 @@
 			<mvc:exclude-mapping path="/file/**" />
 			<mvc:exclude-mapping path="/index/**" />
 			<mvc:exclude-mapping path="/channel/**" />
-			<mvc:exclude-mapping path="/article/detail" />
-			<mvc:exclude-mapping path="/article/comments" />
+			<mvc:exclude-mapping path="/article/**" />
 			<bean class="com.zhangyanlong.web.UserInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors> 

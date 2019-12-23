@@ -13,6 +13,7 @@ import com.zhangyanlong.entity.Article;
 import com.zhangyanlong.entity.Category;
 import com.zhangyanlong.entity.Channel;
 import com.zhangyanlong.entity.Comment;
+import com.zhangyanlong.entity.Complain;
 
 public interface ArticleMapper {
 
@@ -135,4 +136,31 @@ public interface ArticleMapper {
 	
 	
 	public List<Article> getListById(@Param("channelId")int channelId, @Param("categoryId")int categoryId, @Param("hotId")int hotId);
+	
+	/**
+	 * 
+	 * @param complain
+	 * @return
+	 */
+	@Insert("INSERT INTO cms_complain(article_id,user_id,complain_type,"
+			+ "compain_option,src_url,picture,content,email,mobile,created)"
+			+ "   VALUES(#{articleId},#{userId},"
+			+ "#{complainType},#{compainOption},#{srcUrl},#{picture},#{content},#{email},#{mobile},now())")
+	int addCoplain(Complain complain);
+
+	/**
+	 * 
+	 * @param articleId
+	 */
+	@Update("UPDATE cms_article SET complainCnt=complainCnt+1,status=if(complainCnt>10,2,status)  "
+			+ " WHERE id=#{value}")
+	void increaseComplainCnt(Integer articleId);
+
+	/**
+	 * 
+	 * @param articleId
+	 * @return
+	 */
+	List<Complain> getComplains(int articleId);
+	
 }

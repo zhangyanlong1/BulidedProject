@@ -119,7 +119,7 @@
 				<ul class="nav nav-pills">
 				 	  <li class="nav-item">
 						    <a class="nav-link ${catId==0?'active':''}"  href="/index/channel?channelId=${channelId}">全部</a>
-				       </li>e
+				       </li>
 					  <c:forEach items="${categoris}" var="category" >
 						  <li class="nav-item">
 						    <a class="nav-link ${catId==category.id?'active':''}"  href="/index/channel?channelId=${channelId}&catId=${category.id}" >${category.name}</a>

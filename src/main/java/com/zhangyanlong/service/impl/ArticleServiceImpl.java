@@ -3,6 +3,8 @@ package com.zhangyanlong.service.impl;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import com.zhangyanlong.entity.Article;
 import com.zhangyanlong.entity.Category;
 import com.zhangyanlong.entity.Channel;
 import com.zhangyanlong.entity.Comment;
+import com.zhangyanlong.entity.Complain;
 import com.zhangyanlong.entity.Slide;
 import com.zhangyanlong.service.ArticleService;
 @Service
@@ -161,6 +164,27 @@ public class ArticleServiceImpl implements ArticleService {
 		List<Article> list2 = mapper.getListById(channelId,categoryId,hotId);
 		System.out.println(list2);
 		return new PageInfo<Article>(list2);
+	}
+	
+	
+	@Override
+	public int addComplain(Complain complain) {
+		// TODO Auto-generated method stub
+		
+		//添加投诉到数据库
+		int result = mapper.addCoplain(complain);
+		// 增加投诉的数量
+		if(result>0)
+			mapper.increaseComplainCnt(complain.getArticleId());
+		
+		return 0;
+	}
+
+	@Override
+	public PageInfo<Complain> getComplains(int articleId, int page) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(page, CmsContant.PAGE_SIZE);
+		return new PageInfo<Complain>(mapper.getComplains(articleId));
 	}
 	
 }

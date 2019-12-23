@@ -67,6 +67,7 @@
 			栏目：${article.channel.name}  &nbsp;&nbsp;&nbsp;
 			分类：${article.category.name}&nbsp;&nbsp;&nbsp;
 			发表时间：<fmt:formatDate value="${article.created}" pattern="yyyy-MM-dd"/> 
+			<a href="/article/complain?articleId=${article.id}">投诉</a>
 			</h5>
 			
 		</div>
@@ -94,6 +95,8 @@
 		<div id="comment">
 		</div>
 	</div>
+
+</body>
 <script type="text/javascript">
 	var id =$("#idd").val() ;
 		function dePage(page){
@@ -142,5 +145,4 @@
 			}	 
 		}
 	</script>
-</body>
 </html>

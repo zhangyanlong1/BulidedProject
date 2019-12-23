@@ -3,11 +3,14 @@ package com.zhangyanlong.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.github.pagehelper.PageInfo;
 import com.zhangyanlong.entity.Article;
 import com.zhangyanlong.entity.Category;
 import com.zhangyanlong.entity.Channel;
 import com.zhangyanlong.entity.Comment;
+import com.zhangyanlong.entity.Complain;
 import com.zhangyanlong.entity.Slide;
 
 public interface ArticleService {
@@ -129,5 +132,9 @@ public interface ArticleService {
 	PageInfo<Comment> getComments(int id, int page);
 
 	PageInfo<Article> getListById(int page,int id, int channelId, int categoryId, int hotId);
+
+	PageInfo<Complain> getComplains(int articleId, int page);
+
+	int addComplain(@Valid Complain complain);
 	
 }

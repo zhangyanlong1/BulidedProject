@@ -7,7 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ import com.zhangyanlong.service.UserService;
  */
 @Controller
 @RequestMapping("user")
-public class UserController {
+public class UserController extends BaseController{
 	
 	@Value("${upload.path}")
 	String picRootPath;
@@ -97,7 +99,8 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "login",method = RequestMethod.POST)
-	public String login(HttpServletRequest request,User user) {
+	public String login(HttpServletRequest request,User user,HttpServletResponse response) {
+		String pwd =  new String(user.getPassword());
 		User loginUser = userService.login(user);
 		
 		if(loginUser==null) {
@@ -108,6 +111,17 @@ public class UserController {
 		//登录成功
 		request.getSession().setAttribute(CmsContant.USER_KEY,loginUser);
 		
+		//保存用户的用户名和密码
+		Cookie cookieUserName = new Cookie("username", user.getUsername());
+		cookieUserName.setPath("/");
+		cookieUserName.setMaxAge(10*24*3600);// 10天
+		response.addCookie(cookieUserName);
+		Cookie cookieUserPwd = new Cookie("userpwd", pwd);
+		cookieUserPwd.setPath("/");
+		cookieUserPwd.setMaxAge(10*24*3600);// 10天
+		response.addCookie(cookieUserPwd);
+		
+		
 		//跳转到主页
 		return "forward:/index/index";
 	}
@@ -117,8 +131,19 @@ public class UserController {
 	 * 退出登录的操作
 	 */
 	@RequestMapping("outUser")
-	public String outUser(HttpServletRequest request) {
+	public String outUser(HttpServletRequest request,HttpServletResponse response) {
 		request.getSession().removeAttribute(CmsContant.USER_KEY);
+		
+		Cookie cookieUserName = new Cookie("username", "");
+		cookieUserName.setPath("/");
+		cookieUserName.setMaxAge(0);// 立即过期
+		response.addCookie(cookieUserName);
+		Cookie cookieUserPwd = new Cookie("userpwd", "");
+		cookieUserPwd.setPath("/");
+		cookieUserPwd.setMaxAge(0);// 立即过期
+		response.addCookie(cookieUserPwd);
+		
+		
 		return "redirect:/index/index";
 	}
 	
@@ -186,6 +211,7 @@ public class UserController {
 	@ResponseBody
 	public boolean checkUserName(String username) {
 		User exName = userService.getUserByUsername(username);
+		
 		return exName==null;
 	}
 	
@@ -242,7 +268,7 @@ public class UserController {
 		String picUrl;
 		try {
 			// 处理上传文件
-			picUrl = processFile(file);
+			picUrl = this.processFile(file);
 			article.setPicture(picUrl);
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
@@ -296,7 +322,7 @@ public class UserController {
 		String picUrl;
 		try {
 			// 处理上传文件
-			picUrl = processFile(file);
+			picUrl = this.processFile(file);
 			article.setPicture(picUrl);
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
@@ -350,32 +376,5 @@ public class UserController {
 		
 		
 		
-		/**
-		 * 	处理传的数据
-		 * @param file
-		 * @return
-		 * @throws IOException 
-		 * @throws IllegalStateException 
-		 */
-		private String processFile(MultipartFile file) throws IllegalStateException, IOException {
-			// 判断目标目录时间否存在
-			//picRootPath + ""
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			String subPath = sdf.format(new Date());
-			//图片存放的路径
-			File path= new File(picRootPath+"/" + subPath);
-			//路径不存在则创建
-			if(!path.exists())
-				path.mkdirs();
-			
-			//计算新的文件名称
-			String suffixName = FileUtils.getSuffixName(file.getOriginalFilename());
-			
-			//随机生成文件名
-			String fileName = UUID.randomUUID().toString() + suffixName;
-			//文件另存
-			file.transferTo(new File(picRootPath+"/" + subPath + "/" + fileName));
-			return  subPath + "/" + fileName;
-			
-		}
+
 }
