@@ -88,17 +88,13 @@
 		 }); 
 	
 	function putUpArticle(){
-			  alert(editor.html());
 			  
 			//  var formdata = new FormData($("#articleform"))
 			// 生成formData  异步提交的数据包含附件  
 			  var formData = new FormData($( "#articleform" )[0]);
 			  
-			console.log("11111111")
-			
 			   // 把文章内容存放到formData 中
 			  formData.set("content",editor.html());
-			console.log("222222222222")
 			 
 			  $.ajax({url:"postArticle",
 				  dataType:"json",

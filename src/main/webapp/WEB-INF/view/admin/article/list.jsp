@@ -20,6 +20,7 @@
       <th scope="col">发布时间</th>
       <th scope="col">状态</th>
       <th scope="col">热门状态</th>
+       <th scope="col">投诉数量</th>
       <th scope="col">操作</th>
     </tr>
   </thead>
@@ -42,6 +43,7 @@
         	</c:choose>
 	  </td>
 	  <td>${articleList.hot==1?"热门":"不是热门" }</td>
+	  <td>${articleList.complainCnt }</td>
 	  <td> 
 	  			<input type="button" value="审核"  class="btn btn-warning"   onclick="check(${articleList.id})"> 
 	  			<input type="button" value="删除"  class="btn btn-danger" onclick="del(${articleList.id})">
@@ -71,7 +73,7 @@
  <nav aria-label="Page navigation example"  >
   <ul class="pagination justify-content-center">
     <li class="page-item">
-      <a class="page-link" href="#" aria-label="Previous"  onclick="gopage(${page.prePage==0?1:page.prePage})">
+      <a class="page-link" href="#" aria-label="Previous"  onclick="gopage(${page.prePage==0?page.firstPage:page.prePage})">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
@@ -80,9 +82,9 @@
     			<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1"  >...</a>
     		</li>
     	</c:if>
-     	<c:if test="${page.pageNum!=page.firstPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum-1})">${page.pageNum-1 }</a></li></c:if>
-   	 	<li class="page-item"><a class="page-link" href="#"  style="background-color:  yellow" onclick="gopage(${page.pageNum})">${page.pageNum }</a></li>
-  		<c:if test="${page.pageNum!=page.lastPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum+1})">${page.pageNum+1 }</a></li></c:if>
+     	<c:if test="${page.pageNum!=page.firstPage&&page.prePage!=0 }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum-1})">${page.pageNum-1 }</a></li></c:if>
+   	 	<c:if test="${page.pages!=0 }"><li class="page-item"><a class="page-link" href="#"  style="background-color:  yellow" onclick="gopage(${page.pageNum})">${page.pageNum }</a></li></c:if>
+  		<c:if test="${page.pageNum!=page.lastPage&&page.nextPage!=0 }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum+1})">${page.pageNum+1 }</a></li></c:if>
   		<c:if test="${page.pages>3&&(page.pages-page.pageNum)>2 }">
   			<li class="page-item">
   				<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2"  >...</a>
@@ -113,7 +115,7 @@
 
 <div class="modal fade bs-example-modal-sm"   id="articleContent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true"   >
   <div class="modal-dialog"  role="document"   >
-    <div class="modal-content"  style="width: 800px">
+    <div class="modal-content"   style="width: 1200px;margin-left:-300px">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">文章审核</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

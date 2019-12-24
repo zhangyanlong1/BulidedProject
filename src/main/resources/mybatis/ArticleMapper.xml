@@ -41,7 +41,7 @@
 	
 	
 	<select id="getList" resultMap="articleList">
-		SELECT id,title,channel_id,category_id ,user_id, created,status,hot
+		SELECT id,title,channel_id,category_id ,user_id, created,status,hot,complainCnt
 		  FROM cms_article
 		  WHERE  deleted=0
 		  ORDER BY id DESC 

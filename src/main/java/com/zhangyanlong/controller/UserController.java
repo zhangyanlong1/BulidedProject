@@ -222,6 +222,7 @@ public class UserController extends BaseController{
 		 User loginUser = (User) request.getSession().getAttribute(CmsContant.USER_KEY);
 		 System.out.println(loginUser);
 		 PageInfo<Article> pageInfo =articleService.getArticleByUser(loginUser.getId(),pageNum);
+		 System.out.println(pageInfo);
 		 request.setAttribute("page", pageInfo);
 		return "user/article/list";
 	}
@@ -316,9 +317,6 @@ public class UserController extends BaseController{
 	@RequestMapping(value="updateArticle",method=RequestMethod.POST)
 	@ResponseBody
 	public  boolean  updateArticle(HttpServletRequest request,Article article,MultipartFile file) {
-		
-		System.out.println("aarticle is  "  + article);
-		
 		String picUrl;
 		try {
 			// 处理上传文件
@@ -336,8 +334,6 @@ public class UserController extends BaseController{
 		User loginUser = (User)request.getSession().getAttribute(CmsContant.USER_KEY);
 		//article.setUserId(loginUser.getId());
 		int updateREsult  = articleService.update(article,loginUser.getId());
-		
-		
 		return updateREsult>0;
 		
 	}
@@ -353,7 +349,6 @@ public class UserController extends BaseController{
 	@ResponseBody
 	public List<Category>  getCategoris(int cid) {	
 		List<Category> categoris = articleService.getCategorisByCid(cid);
-		System.out.println("吱吱吱吱");
 		return categoris;
 	}
 	
@@ -369,12 +364,6 @@ public class UserController extends BaseController{
 		 */
 		@RequestMapping("index")
 		public String index() {
-			
-			return "index";
-			
+			return "redirect:/index/index";
 		}
-		
-		
-		
-
 }

@@ -52,13 +52,13 @@
      </div>
   </nav>
   
-
-	<div class="container">
+  	
+	<div class="container "  >
 	  <c:forEach  items="${page.list }" var="article">
-	  <div>
+		<div>
 	 	 	<c:if test="${hotId!=-1 }"><a href="/index/index">返回</a></c:if>
 	   		<c:if test="${hotId==-1 }"><a href="/index/channel?channelId=${article.channel.id}">返回</a></c:if>
-	  </div>
+	 	 </div>
 		<div class="row justify-content-center" >
 			<h3>${article.title}</h3>
 		</div>
@@ -70,7 +70,7 @@
 			栏目：${article.channel.name}  &nbsp;&nbsp;&nbsp;
 			分类：${article.category.name}&nbsp;&nbsp;&nbsp;
 			发表时间：<fmt:formatDate value="${article.created}" pattern="yyyy-MM-dd"/> 
-			<a href="/article/complain?articleId=${article.id}">投诉</a>
+			<%-- <a href="/article/complain?articleId=${article.id}">投诉</a> --%>
 			</h5>
 			
 		</div>
@@ -78,24 +78,16 @@
 			${article.content}
 		</div>
 	  </c:forEach>
-		<div>
-			<nav aria-label="...">
-					  <ul class="pagination">
-					    <li class="page-item ">
-					      <input type="button"  onclick="dePage(${page.prePage==0?1:page.prePage})" value="上一页">
-					    </li>
-					    <li class="page-item">
-					     <input type="button"  onclick="dePage(${page.nextPage==0?page.lastPage:page.nextPage})"  value="下一页">
-					    </li>
-					  </ul>
-					</nav>
-		</div>
-		<div>
+			
+					     <input type="button"  class="btn btn-success"   style="" onclick="dePage(${page.prePage==0?1:page.prePage})" value="上一篇">
+					     <input type="button"  class="btn btn-success"   style="margin-left: 957px" onclick="dePage(${page.nextPage==0?page.lastPage:page.nextPage})"  value="下一篇">
+					     
+		<div class="text-center">
 			<!-- 发布评论 -->
-			<textarea rows="5" cols="160" id="commentText"></textarea>
+			<textarea rows="5" cols="140" id="commentText"></textarea>
 			<input type="button" class="btn btn-primary" onclick="addComment()" value="发表评论">
 		</div>
-		<div id="comment">
+		<div id="comment"  >
 		</div>
 	</div>
 

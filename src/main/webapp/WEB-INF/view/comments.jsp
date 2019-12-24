@@ -45,9 +45,9 @@
 			    			<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1"  >...</a>
 			    		</li>
 			    	</c:if>
-			     	<c:if test="${commentPage.pageNum!=commentPage.firstPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${commentPage.pageNum-1})">${commentPage.pageNum-1 }</a></li></c:if>
-			   	 	<li class="page-item"><a class="page-link" href="#"  style="background-color:  yellow" onclick="gopage(${commentPage.pageNum})">${commentPage.pageNum }</a></li>
-			  		<c:if test="${commentPage.pageNum!=commentPage.lastPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${commentPage.pageNum+1})">${commentPage.pageNum+1 }</a></li></c:if>
+			     	<c:if test="${commentPage.pageNum!=commentPage.firstPage&&commentPage.prePage!=0 }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${commentPage.pageNum-1})">${commentPage.pageNum-1 }</a></li></c:if>
+			   	 	<c:if test="${commentPage.pages!=0 }"><li class="page-item"><a class="page-link" href="#"  style="background-color:  yellow" onclick="gopage(${commentPage.pageNum})">${commentPage.pageNum }</a></li></c:if>
+			  		<c:if test="${commentPage.pageNum!=commentPage.lastPage&&commentPage.nextPage!=0  }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${commentPage.pageNum+1})">${commentPage.pageNum+1 }</a></li></c:if>
 			  		<c:if test="${commentPage.lastPage>3&&(commentPage.lastPage-commentPage.pageNum)>2 }">
 			  			<li class="page-item">
 			  				<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2"  >...</a>
@@ -69,7 +69,7 @@
 			    		<c:if test="${i.index>(commentPage.pageNum+1)}">
 			    			<li class="nav-item">
 					   			<input type="button"  class="btn btn-primary"   href="#" onclick="gopage(${i.index})"  value="${i.index}">
-						  	</li>					   
+						  	</li>
 						</c:if>
 					 
 					</c:forEach>

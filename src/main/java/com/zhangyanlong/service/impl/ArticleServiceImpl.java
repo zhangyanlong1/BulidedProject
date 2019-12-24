@@ -57,8 +57,11 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 	@Override
 	public int update(Article article, Integer id) {
-		
-		return 0;
+		Article articleSrc = this.getById(article.getId());
+		if(articleSrc.getUserId() != id) {
+			// todo 如果  不是自己的文章 需要。。。。。
+		}
+		return mapper.update(article);
 	}
 	@Override
 	public Article getById(int id) {
@@ -149,7 +152,6 @@ public class ArticleServiceImpl implements ArticleService {
 	public PageInfo<Article> getListById(int page,int id, int channelId, int categoryId, int hotId) {
 		int page1=0;
 		List<Article> list1= mapper.getListById(channelId,categoryId,hotId);
-		System.out.println(list1);
 		for (Article article : list1) {
 			page1++;
 			if(article.getId()==id) {
@@ -162,7 +164,6 @@ public class ArticleServiceImpl implements ArticleService {
 			PageHelper.startPage(page, 1);
 		}
 		List<Article> list2 = mapper.getListById(channelId,categoryId,hotId);
-		System.out.println(list2);
 		return new PageInfo<Article>(list2);
 	}
 	

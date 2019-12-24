@@ -33,21 +33,20 @@
   
   <div class="form-group">
     <label for="file">附加文件</label>
-    <input type="file" class="form-control-file" id="file"  name="file">
+    <input type="file" class="form-control-file" id="file"  name="file" >
   </div>
 
   <div class="form-group">
     <label for="content1">文章内容</label>
-    <textarea class="form-control" id="contentId"  name="content1" rows="20"  style="height: 300px;width: 100%"></textarea>
+    <textarea class="form-control" id="contentId"  name="content1" rows="20"  style="height: 300px;width: 100%">${content1 }</textarea>
   </div>
   <div class="form-group  text-center">
-      <input type="button"  class="btn btn-primary mb-2"  value="发布文章"  onclick="putUpArticle()">
+      <input type="button"  class="btn btn-primary mb-2"  value="修改文章"  onclick="putUpArticle()">
    </div>
   </form>
  <script>
  function channelChange(){
 
-		console.log("选中的数据是 " + $("#channel").val())
 		$.post("/user/getCategoris",{cid:$("#channel").val()},
 				function(data){
 					$("#category").empty();
@@ -104,17 +103,13 @@
 		 }); 
 	
 	function putUpArticle(){
-			  alert(editor.html());
 			  
 			//  var formdata = new FormData($("#articleform"))
 			// 生成formData  异步提交的数据包含附件  
 			  var formData = new FormData($( "#articleform" )[0]);
-			  
-			console.log("11111111")
 			
 			   // 把文章内容存放到formData 中
 			  formData.set("content",editor.html());
-			console.log("222222222222")
 			 
 			  $.ajax({url:"updateArticle",
 				  dataType:"json",

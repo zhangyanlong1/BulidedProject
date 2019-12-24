@@ -97,8 +97,9 @@ public class ArticleController extends BaseController{
 	// {articleId:'${article.id}',content:$("#co
 		//comments?id
 		@RequestMapping("comments")
-		public String comments(HttpServletRequest request,int id,int page) {
+		public String comments(HttpServletRequest request,int id,@RequestParam(defaultValue = "1")int page) {
 			PageInfo<Comment> commentPage =  articleService.getComments(id,page);
+			System.out.println(commentPage);
 			request.setAttribute("commentPage", commentPage);
 			return "comments";
 		}	
@@ -110,7 +111,7 @@ public class ArticleController extends BaseController{
 		 * @return
 		 */
 		@RequestMapping(value="complain",method=RequestMethod.GET)
-		public String complain(HttpServletRequest request,int articleId) {
+		public String complain(HttpServletRequest request,Integer articleId) {
 			Article article= articleService.getById(articleId);
 			request.setAttribute("article", article);
 			request.setAttribute("complain", new Complain());
@@ -129,13 +130,14 @@ public class ArticleController extends BaseController{
 		@RequestMapping(value="complain",method=RequestMethod.POST)
 		public String complain(HttpServletRequest request,
 				@ModelAttribute("complain") @Valid Complain complain,
-				MultipartFile file,
-				BindingResult result) throws IllegalStateException, IOException {
-			System.out.println(complain+"\n\n\n\n\n\n");
-			if(!StringUtils.isUrl(complain.getSrcUrl())) {
+				BindingResult result,MultipartFile file) throws IllegalStateException, IOException {
+			System.out.println(complain);
+			if(StringUtils.isHttpUrl(complain.getSrcUrl())) {
 				result.rejectValue("srcUrl", "", "不是合法的url地址");
 			}
 			if(result.hasErrors()) {
+				Article article= articleService.getById(complain.getArticleId());
+				request.setAttribute("article", article);
 				return "article/complain";
 			}
 			

@@ -73,9 +73,9 @@
     			<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1"  >...</a>
     		</li>
     	</c:if>
-     	<c:if test="${page.pageNum!=page.firstPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum-1})">${page.pageNum-1 }</a></li></c:if>
-   	 	<li class="page-item"><a class="page-link" href="#"  style="background-color:  yellow" onclick="gopage(${page.pageNum})">${page.pageNum }</a></li>
-  		<c:if test="${page.pageNum!=page.lastPage }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum+1})">${page.pageNum+1 }</a></li></c:if>
+     	<c:if test="${page.pageNum!=page.firstPage&&page.prePage!=0 }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum-1})">${page.pageNum-1 }</a></li></c:if>
+   	 	<c:if test="${page.pages!=0 }"><li class="page-item"><a class="page-link" href="#"  style="background-color:  yellow" onclick="gopage(${page.pageNum})">${page.pageNum }</a></li></c:if>
+  		<c:if test="${page.pageNum!=page.lastPage&&page.nextPage!=0 }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${page.pageNum+1})">${page.pageNum+1 }</a></li></c:if>
   		<c:if test="${page.pages>3&&(page.pages-page.pageNum)>2 }">
   			<li class="page-item">
   				<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2"  >...</a>

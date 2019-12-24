@@ -15,21 +15,22 @@ public class Complain {
 	
 	private Integer id               ;
 	
-	@NotNull
+	
 	private Integer articleId       ;
 	
 	private Integer userId          ;
 	
-	@NotNull
+	@NotNull(message = "不能为空")
 	private Integer complainType    ;
 	
-	@NotBlank
+	@NotBlank(message = "不能为空")
 	private String compainOption   ;
 	private String srcUrl          ;
 	private String picture          ;
 	private String content          ;
 	
 	@Email
+	@NotBlank(message = "邮箱不能为空")
 	private String email            ;
 	
 	private String mobile           ;

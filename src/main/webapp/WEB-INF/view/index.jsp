@@ -52,7 +52,6 @@
 
 </head>
 <body>
-<input type="text"  name="channelId">
  <!-- 导航条 -->
   <div class="collapse" id="navbarToggleExternalContent">
     <div class="bg-dark p-4">
