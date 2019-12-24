@@ -45,8 +45,8 @@
 	  <td> 
 	  			<input type="button" value="审核"  class="btn btn-warning"   onclick="check(${articleList.id})"> 
 	  			<input type="button" value="删除"  class="btn btn-danger" onclick="del(${articleList.id})">
-	  	  		<input type="button" value="管理投诉"  class="btn btn-warning"  onclick="complainList(${articleList.id})" >
-	  </td>
+<%-- 	  	  		<input type="button" value="管理投诉"  class="btn btn-warning"  onclick="complainList(${articleList.id})" >
+ --%>	  </td>
 	
     </tr>
     </c:forEach>  

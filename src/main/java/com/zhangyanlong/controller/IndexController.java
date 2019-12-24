@@ -24,7 +24,7 @@ import com.zhangyanlong.service.ArticleService;
  *
  */
 @Controller
-@RequestMapping("index")
+@RequestMapping(value= {"index","/"})
 public class IndexController {
 	
 	@Autowired

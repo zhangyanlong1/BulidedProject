@@ -26,14 +26,12 @@ import com.zhangyanlong.entity.Complain;
 import com.zhangyanlong.entity.User;
 import com.zhangyanlong.service.ArticleService;
 
-
 @Controller
 @RequestMapping("article")
 public class ArticleController extends BaseController{
 
 	@Autowired
 	ArticleService articleService;
-	
 	/**
 	 * @param id
 	 * @return
@@ -105,9 +103,6 @@ public class ArticleController extends BaseController{
 			return "comments";
 		}	
 		
-		
-		
-		
 		/**
 		 * 跳转到投诉的页面
 		 * @param request
@@ -122,7 +117,6 @@ public class ArticleController extends BaseController{
 			return "article/complain";
 					
 		}
-		
 		
 		/**
 		 * 接受投诉页面提交的数据
@@ -161,7 +155,6 @@ public class ArticleController extends BaseController{
 			return "redirect:/article/detail?id="+complain.getArticleId();
 					
 		}
-		
 		
 			//complains?articleId
 			@RequestMapping("complains")
