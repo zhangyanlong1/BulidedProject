@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zhangyanlong.common.CmsContant;
 import com.zhangyanlong.dao.ArticleMapper;
+import com.zhangyanlong.dao.ArticleRep;
 import com.zhangyanlong.dao.SlideMapper;
 import com.zhangyanlong.entity.Article;
 import com.zhangyanlong.entity.Category;
@@ -27,7 +28,8 @@ public class ArticleServiceImpl implements ArticleService {
 	ArticleMapper mapper;
 	@Autowired
 	SlideMapper slideMapper;
-	
+	@Autowired
+	ArticleRep articleRep;
 	@Override
 	public PageInfo<Article> getArticleByUser(Integer id,int pageNum) {
 		PageHelper.startPage(pageNum, 5);
@@ -47,8 +49,8 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 	@Override
 	public int add(Article article) {
-		// TODO Auto-generated method stub
-		return mapper.add(article);
+		int add = mapper.add(article);
+		return add;
 	}
 	@Override
 	public int delete(int id) {
@@ -90,6 +92,11 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public int setCheckStatus(int id, int status) {
+		if(status==1) {
+			Article article = mapper.getInfoById(id);
+			System.out.println(article);
+			articleRep.save(article);
+		}
 		 return mapper.CheckStatus(id,status);
 	}
 
@@ -151,7 +158,12 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public PageInfo<Article> getListById(int page,int id, int channelId, int categoryId, int hotId) {
 		int page1=0;
-		List<Article> list1= mapper.getListById(channelId,categoryId,hotId);
+		List<Article> list1= null;
+		if(channelId!=0&&categoryId!=0&&hotId!=-1) {
+			list1= mapper.getListById(channelId,categoryId,hotId);
+		}else {
+			list1= mapper.lastList(1);
+		}
 		for (Article article : list1) {
 			page1++;
 			if(article.getId()==id) {

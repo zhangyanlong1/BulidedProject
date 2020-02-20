@@ -41,6 +41,7 @@ public class AdminController {
 		PageInfo<Article>  pageInfo =  service.getList(page);
 		request.setAttribute("page", pageInfo);
 		return "admin/article/list";
+
 	}
 	
 	/**

@@ -1,16 +1,25 @@
 package com.zhangyanlong.entity;
 
+import java.io.Serializable;
 import java.util.Date;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * 
  * @author zhuzg
  *
  */
-public class Article {
-	
+@Document(indexName = "cms_articles" , type = "article")
+public class Article implements Serializable{
+	@Id
 	private Integer id              ;
+	@Field(analyzer = "ik_smart",index = true,store=true,searchAnalyzer = "ik_smart",type = FieldType.text)
 	private String title           ;//标题
+	@Field(analyzer = "ik_smart",index = true,store=true,searchAnalyzer = "ik_smart",type = FieldType.text)
 	private String content         ;//文章的内容
 	private String picture         ;//图片的url
 	private int channelId      ;//栏目 频道

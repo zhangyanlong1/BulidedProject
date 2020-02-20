@@ -16,6 +16,9 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+	<import resource="classpath:es.xml" />
+	<import resource="classpath:redis.xml" />
+	<import resource="classpath:consumer.xml" />
 	<!-- 1、注解扫描器 -->
 	<!-- todo -->
 	<context:component-scan base-package="com.zhangyanlong" >

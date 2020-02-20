@@ -28,11 +28,14 @@ import com.utils.FileUtils;
 import com.utils.HtmlUtils;
 import com.utils.StringUtils;
 import com.zhangyanlong.common.CmsContant;
+import com.zhangyanlong.dao.ArticleRep;
 import com.zhangyanlong.entity.Article;
 import com.zhangyanlong.entity.Category;
 import com.zhangyanlong.entity.Channel;
+import com.zhangyanlong.entity.Domain;
 import com.zhangyanlong.entity.User;
 import com.zhangyanlong.service.ArticleService;
+import com.zhangyanlong.service.DomainService;
 import com.zhangyanlong.service.UserService;
 
 /**
@@ -56,6 +59,13 @@ public class UserController extends BaseController{
 	@Autowired
 	UserService userService ;
 	
+	@Autowired
+	ArticleRep articleRep;
+	
+	@Autowired
+	DomainService domainService;
+	
+	static String loginStatuss;
 	/**
 	 * 跳转普通用户的个人中心
 	 * @return
@@ -78,7 +88,7 @@ public class UserController extends BaseController{
 			return "forward:/admin/index";
 		}
 		
-		System.out.println("2");
+		
 		return "user/home";
 	}
 	
@@ -89,6 +99,7 @@ public class UserController extends BaseController{
 	@RequestMapping(value = "login",method = RequestMethod.GET)
 	public String login(HttpServletRequest request) {
 		
+		request.setAttribute("loginSta", loginStatuss);
 		return "user/login";
 	}
 	
@@ -99,10 +110,10 @@ public class UserController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value = "login",method = RequestMethod.POST)
-	public String login(HttpServletRequest request,User user,HttpServletResponse response) {
+	public String login(HttpServletRequest request,User user,HttpServletResponse response,String loginStatus) {
 		String pwd =  new String(user.getPassword());
 		User loginUser = userService.login(user);
-		
+		loginStatuss=loginStatus;
 		if(loginUser==null) {
 			request.setAttribute("err", "用户名或密码错误！");
 			return "user/login";
@@ -122,6 +133,7 @@ public class UserController extends BaseController{
 		response.addCookie(cookieUserPwd);
 		
 		
+		
 		//跳转到主页
 		return "forward:/index/index";
 	}
@@ -133,7 +145,7 @@ public class UserController extends BaseController{
 	@RequestMapping("outUser")
 	public String outUser(HttpServletRequest request,HttpServletResponse response) {
 		request.getSession().removeAttribute(CmsContant.USER_KEY);
-		
+		loginStatuss=null;
 		Cookie cookieUserName = new Cookie("username", "");
 		cookieUserName.setPath("/");
 		cookieUserName.setMaxAge(0);// 立即过期
@@ -240,12 +252,38 @@ public class UserController extends BaseController{
 	}
 	
 	
-	//跳转我的论坛
+	//跳转我的收藏
 	@RequestMapping("comments")
-	public String comments() {
+	public String comments(Integer id,HttpServletRequest request) {
+		
+		//查询收藏列表
+		List<Domain> list = domainService.select(id);
+		
+		request.setAttribute("list", list);
 		return "user/comment/list";
 	}
 	
+	
+	//删除我的收藏
+		@RequestMapping("delDomain")
+		@ResponseBody
+		public Object delDomain(Integer id,HttpServletRequest request) {
+			//删除收藏
+			boolean b = domainService.delDomain(id);
+			
+			return b;
+		}
+		
+		//添加我的收藏
+		@RequestMapping("addDomain")
+		@ResponseBody
+		public Object addDomain(Domain domain,HttpServletRequest request) {
+					System.out.println(domain);
+			int b = domainService.addDomain(domain);
+					
+			return b;
+			
+		}
 	//跳转发表文章
 	@RequestMapping("articlePutUp")
 	public String articlePutUp(HttpServletRequest request) {
@@ -282,7 +320,8 @@ public class UserController extends BaseController{
 		//当前用户是文章的作者
 		User loginUser = (User)request.getSession().getAttribute(CmsContant.USER_KEY);
 		article.setUserId(loginUser.getId());
-		return articleService.add(article)>0;
+		int add = articleService.add(article);
+		return add>0;
 	}
 	
 

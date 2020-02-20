@@ -51,7 +51,7 @@
     		<li class="nav-item nav-link text-white">
 					  <div class="dropdown mr-1">
 					    <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-					     	${loing_session_key.username }
+					     	${loing_session_key.username } 	${loing_session_key.id } 
 					    </button>
 					    <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
 					      <a class="dropdown-item" href="/user/home">个人中心</a>
@@ -73,7 +73,7 @@
 					        <a class="nav-link"  id="putupArticle" href="#"    onclick="showWork($(this),'/user/articlePutUp')">发表文章</a>
 					  </li>
 					  <li class="nav-item">
-					    <a class="nav-link"   id="comment"   href="#"    onclick="showWork($(this),'/user/comments')">我的论坛</a>
+					    <a class="nav-link"   id="comment"   href="#"    onclick="showWork($(this),'/user/comments?id=${loing_session_key.id }' )">我的收藏夹</a>
 					  </li>
 					  <li class="nav-item">
 					    <a class="nav-link"   id="userSetting"   href="#"    onclick="showWork($(this),'/user/userSetting')"  >个人设置</a>

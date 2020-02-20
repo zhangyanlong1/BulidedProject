@@ -14,7 +14,7 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col">id</th>
-      <th scope="col">标题</th>
+      <th scope="col" width="300px">标题</th>
       <th scope="col">栏目</th>
       <th scope="col">分类</th>
       <th scope="col">发布时间</th>
@@ -26,7 +26,7 @@
   </thead>
   <tbody>
   <c:forEach items="${page.list }"  var="articleList">
-    <tr>
+    <tr height="100px">
       <th scope="row">${articleList.id }</th>
       <td>${articleList.title }</td>
       <td>${articleList.channel.name }</td>
@@ -44,12 +44,11 @@
 	  </td>
 	  <td>${articleList.hot==1?"热门":"不是热门" }</td>
 	  <td>${articleList.complainCnt }</td>
-	  <td> 
+	  <td>
 	  			<input type="button" value="审核"  class="btn btn-warning"   onclick="check(${articleList.id})"> 
 	  			<input type="button" value="删除"  class="btn btn-danger" onclick="del(${articleList.id})">
 <%-- 	  	  		<input type="button" value="管理投诉"  class="btn btn-warning"  onclick="complainList(${articleList.id})" >
  --%>	  </td>
-	
     </tr>
     </c:forEach>  
 </table>

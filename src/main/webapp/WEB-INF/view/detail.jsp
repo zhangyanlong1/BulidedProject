@@ -101,7 +101,10 @@
 				location="/article/detail?id="+id+"&page="+page+"&channelId=${channel_id}";
 			}else if("${hotId==-1 && channel_id==0 && category_id!=0}"=="true"){
 				location="/article/detail?id="+id+"&page="+page+"&categoryId=${category_id}";
+			}else if("${hotId==-1 && channel_id==0 && category_id==0 }"=="true"){
+				location="/article/detail?id="+id+"&page="+page;
 			}
+			
 		}
 		
 		//前往评论分页

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.pagehelper.PageInfo;
 import com.zhangyanlong.entity.Article;
@@ -32,8 +33,6 @@ public interface ArticleMapper {
 	@Select("SELECT id,name FROM cms_category WHERE channel_id = #{value}")
 	public List<Category> getCategorisByCid(int cid);
 	
-	@Insert("INSERT INTO cms_article(title,content,picture,channel_id,category_id,user_id,hits,hot,status,deleted,created,updated,commentCnt,articleType)"
-			+ " VALUES(#{title},#{content},#{picture},#{channelId},#{categoryId},#{userId},0,0,0,0,now(),now(),0,#{articleType})")
 	public int add(Article article);
 	
 	@Update("UPDATE cms_article SET deleted=#{deleted} WHERE id=#{id}")
@@ -50,6 +49,7 @@ public interface ArticleMapper {
 	
 	
 	List<Article> lastList(int pageSize);
+	
 	/**
 	 * 
 	 * @return
@@ -162,5 +162,9 @@ public interface ArticleMapper {
 	 * @return
 	 */
 	List<Complain> getComplains(int articleId);
+	
+	@Select("select * from cms_article where status=#{i} and deleted=0")
+	List<Article> findAllByStatus(int i);
+	
 	
 }

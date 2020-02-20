@@ -25,12 +25,13 @@
 					${err }
 					<div>
 					<input type="text"   class="form-control"   name="username" />
-			
+					
 					</div>
 					<div>
 					<input type="text"  name="password"  class="form-control"   />
-	
+				
 					</div>
+							<input type="checkbox"  name="loginStatus"  ${loginSta.equals('on')?"checked":"" }>记住登录
 							<input type="submit"  value="登录"  class="btn">
 							<a  href="register">注册</a>
 				</form>	

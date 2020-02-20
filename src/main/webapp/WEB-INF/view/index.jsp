@@ -68,7 +68,12 @@
     <a href="/index/index" class="text-white"  style="margin-left: -50%">首页</a>
      <div class="align-center">
     		<ul class="nav">
-    		<li class="nav-item nav-link"><input  type="text"></li>
+    		<li class="nav-item nav-link">
+    			 <form class="form-inline my-2 my-lg-0" action="/article/search"  method="get">
+			      	<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="key" value="${key }">
+			      	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			   	 </form>
+    		</li>
     		<li class="nav-item nav-link"> <img width="35px" height="35px" src="/resource/images/guest.jpg"> </li>
     		<li class="nav-item nav-link text-white">
 					  <c:if test="${loing_session_key.username==null }">
@@ -158,6 +163,63 @@
 						</div>
 					</div>
 				</c:forEach>
+				
+				<div  class="row  justify-content-center">
+<div class="collapse" id="collapseExample1">
+  <div class="card card-body">
+  		<ul class="nav">
+    	<c:forEach begin="1" end="${articlePage.pages}" varStatus="i">
+    		<c:if test="${i.index<(articlePage.pageNum-1)}">
+    			<li class="nav-item">
+		   			<input type="button"  class="btn btn-primary"  href="#" onclick="gopage(${i.index})"  value="${i.index}">
+		   		</li>
+		   		<c:if test="${i.index%10==0}"><br></c:if>
+		   	</c:if>
+		</c:forEach>
+		</ul>
+  </div>
+</div>
+ <nav aria-label="Page navigation example"  >
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous"  onclick="gopage(${articlePage.prePage==0?articlePage.firstPage:articlePage.prePage})">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    	<c:if test="${articlePage.pages>3&&(articlePage.pageNum-2)>0 }">
+    		<li class="page-item">
+    			<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1"  >...</a>
+    		</li>
+    	</c:if>
+     	<c:if test="${articlePage.pageNum!=articlePage.firstPage&&articlePage.prePage!=0 }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${articlePage.pageNum-1})">${articlePage.pageNum-1 }</a></li></c:if>
+   	 	<c:if test="${articlePage.pages!=0 }"><li class="page-item"><a class="page-link" href="#"  style="background-color:  yellow" onclick="gopage(${articlePage.pageNum})">${articlePage.pageNum }</a></li></c:if>
+  		<c:if test="${articlePage.pageNum!=articlePage.lastPage&&articlePage.nextPage!=0 }"><li class="page-item"><a class="page-link" href="#"  onclick="gopage(${articlePage.pageNum+1})">${articlePage.pageNum+1 }</a></li></c:if>
+  		<c:if test="${articlePage.pages>3&&(articlePage.pages-articlePage.pageNum)>2 }">
+  			<li class="page-item">
+  				<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2"  >...</a>
+  			</li>
+  		</c:if>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next"  onclick="gopage(${articlePage.nextPage==0?articlePage.pages:articlePage.nextPage})">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<div class="collapse" id="collapseExample2">
+  <div class="card card-body">
+  	<ul class="nav">
+    	<c:forEach begin="1" end="${articlePage.pages}" varStatus="i">
+    		<c:if test="${i.index>(articlePage.pageNum+1)}">
+    			<li class="nav-item ">
+		   			<input type="button"  class="btn btn-primary"   href="#" onclick="gopage(${i.index})"  value="${i.index}">
+		   		</li>
+		   	</c:if>
+		</c:forEach>
+	</ul>
+  </div>
+</div>
+</div>		
 			</div>
 		</div>
 		<!-- 右侧 -->
@@ -194,6 +256,11 @@
 	</div>
 </div>
 
-
+<script type="text/javascript">
+	function gopage(page){
+		
+		location = ""
+	}
+</script>
 </body>
 </html>
